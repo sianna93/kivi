@@ -1,0 +1,94 @@
+<div>
+  <h2 style="text-align: center; width: 100%; color: white">KIVI</h2>
+  <div class="lema">'Te cuida bien'</div>
+</div>
+
+<form [formGroup]="pacienteForm" (ngSubmit)="confirm()">
+  <div class="content-main form-group">
+    <p-tabView orientation="left">
+      <p-tabPanel header="1) Datos" class="container-main">
+        <ng-template pTemplate="content">
+          <h3>Datos del Paciente</h3>
+          <div style="margin-top: 35px" class="ui-g">
+            <div class="ui-g-12">
+              <span class="ui-float-label">
+                  <input id="float-input" type="text" size="30" formControlName="names" pInputText>
+                  <label for="float-input">Nombres y Apellidos</label>
+              </span>
+            </div>
+
+            <div class="ui-g-12" style="margin-top: 10px">
+              <div class="ui-g-4">
+                <span class="ui-float-label">
+                    <input id="float-ci" type="text" size="30" formControlName="cedula" pInputText>
+                    <label for="float-ci">Cédula</label>
+                </span>
+              </div>
+
+              <div class="ui-g-4">
+                <span class="ui-float-label">
+                    <input id="float-edad" type="text" size="30" formControlName="edad" pInputText>
+                    <label for="float-edad">Edad</label>
+                </span>
+              </div>
+
+              <div class="ui-g-4">
+                <p-dropdown [options]="generos" formControlName="gender"></p-dropdown>
+              </div>
+            </div>
+
+            <div class="ui-g-12" style="margin-top: 10px">
+              <div class="ui-g-8">
+                <span class="ui-float-label">
+                    <input id="float-hisClin" type="text" size="20" formControlName="clinic_number" pInputText>
+                    <label for="float-hisClin">No Historia Clínica</label>
+                </span>
+              </div>
+
+              <div class="ui-g-2">
+                <span class="ui-float-label">
+                    <input id="float-room" type="text" size="4" formControlName="room" pInputText>
+                    <label for="float-room">Habitación</label>
+                </span>
+              </div>
+              <div class="ui-g-2">
+                <span class="ui-float-label">
+                    <input id="float-bed" type="text" size="4" formControlName="bed" pInputText>
+                    <label for="float-bed">Cama</label>
+                </span>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </p-tabPanel>
+      <p-tabPanel header="2) Diagnóstico" class="container-main">
+        <!--<ng-template pTemplate="content">-->
+          <h3>Diagnóstico de Enfermería</h3>
+          <div class="ui-g" style="margin-top: 35px">
+            <div class="ui-g-12">
+              <p-dropdown [options]="dominios" formControlName="dominio"
+                          placeholder="Seleccione un Dominio"></p-dropdown>
+            </div>
+            <div class="ui-g-12">
+              <p-dropdown [options]="diagnosticos" formControlName="diagnostico"
+                          placeholder="Seleccione un Diagnostico"></p-dropdown>
+            </div>
+            <div class="ui-g-12">
+              <p-listbox [options]="actividades" formControlName="actividad"
+                          placeholder="Seleccione una Actividad"></p-listbox>
+            </div>
+          </div>
+        <!--</ng-template>-->
+      </p-tabPanel>
+      <p-tabPanel header="3) Resumen" class="container-main">
+        <ng-template pTemplate="content">
+          <h3>Resumen Recordatorio</h3>
+          <div class="ui-g" style="margin-top: 35px">
+            <div class="ui-g-12" style="margin-top: 10px">
+            </div>
+          </div>
+        </ng-template>
+      </p-tabPanel>
+    </p-tabView>
+  </div>
+</form>
