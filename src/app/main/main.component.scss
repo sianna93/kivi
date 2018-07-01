@@ -3,7 +3,7 @@
 :host ::ng-deep {
   .lema{
     text-align: center; width: 100%; color: rgb(153, 254, 255);
-    margin-top: -10px;
+    margin-top: -20px;
   }
   .number-tab{
     border-radius: 50%;
@@ -24,6 +24,16 @@
     h3{
       width: 100%;
       text-align: center;
+    }
+  }
+
+  .container-diagnostico{
+    .ui-g-12{
+      margin-bottom: -15px;
+    }
+
+    .ui-multiselect{
+      width: 50%;
     }
   }
 
@@ -59,7 +69,7 @@
 
   .ui-tabview .ui-tabview-panel{
     background-color: $color-background;
-    height: 500px;
+    height: 470px;
     border-radius: 10px;
   }
 

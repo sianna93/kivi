@@ -4,9 +4,9 @@
 </div>
 
 <form [formGroup]="pacienteForm" (ngSubmit)="confirm()">
-  <div class="content-main form-group">
+  <div class="content-main ">
     <p-tabView orientation="left">
-      <p-tabPanel header="1) Datos" class="container-main">
+      <p-tabPanel header="1) Datos" class="container-main form-group">
         <ng-template pTemplate="content">
           <h3>Datos del Paciente</h3>
           <div style="margin-top: 35px" class="ui-g">
@@ -61,24 +61,32 @@
           </div>
         </ng-template>
       </p-tabPanel>
-      <p-tabPanel header="2) Diagnóstico" class="container-main">
-        <!--<ng-template pTemplate="content">-->
+      <p-tabPanel header="2) Diagnóstico" class="container-main container-diagnostico form-group">
+        <ng-template pTemplate="content">
           <h3>Diagnóstico de Enfermería</h3>
-          <div class="ui-g" style="margin-top: 35px">
+          <div class="ui-g" style="margin-top: 20px">
             <div class="ui-g-12">
-              <p-dropdown [options]="dominios" formControlName="dominio"
-                          placeholder="Seleccione un Dominio"></p-dropdown>
+              <div class="ui-g-3">Dominios: </div>
+              <div class="ui-g-9">
+                <p-dropdown [options]="dominios" formControlName="dominio"
+                            placeholder="Seleccione un Dominio"></p-dropdown>
+              </div>
             </div>
             <div class="ui-g-12">
-              <p-dropdown [options]="diagnosticos" formControlName="diagnostico"
-                          placeholder="Seleccione un Diagnostico"></p-dropdown>
+              <div class="ui-g-3">Diagnóstico: </div>
+              <div class="ui-g-9">
+                <p-dropdown [options]="diagnosticos" formControlName="diagnostico"
+                            placeholder="Seleccione un Diagnostico"></p-dropdown>
+              </div>
             </div>
             <div class="ui-g-12">
-              <p-listbox [options]="actividades" formControlName="actividad"
-                          placeholder="Seleccione una Actividad"></p-listbox>
+              <div class="ui-g-3">Actividades: </div>
+              <div class="ui-g-9">
+                <p-multiSelect [options]="actividades" formControlName="actividad"></p-multiSelect>
+              </div>
             </div>
           </div>
-        <!--</ng-template>-->
+        </ng-template>
       </p-tabPanel>
       <p-tabPanel header="3) Resumen" class="container-main">
         <ng-template pTemplate="content">
