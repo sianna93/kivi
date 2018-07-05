@@ -76,4 +76,41 @@
   .ui-tabview.ui-widget-content{
     background-color: $color-background-main;
   }
+
+  td .ui-dropdown label.ui-dropdown-label{
+    /*font-size: 10px;*/
+    height: 20px;
+  }
+}
+
+.table-editable{
+  width: 100%;
+  padding-top: 5px;
+  padding-right: 10px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+  background-color: #CCFECC;
+
+  th {
+    background-color: #00B2B2;
+    color: white;
+  }
+
+  .item-dialogo{
+    color: #42B2B2;
+    font-weight: bold;
+    padding-left: 5px;
+  }
+
+  .item-actividad{
+    color: $text;
+  }
+
+  td > div {
+    height: 30px;
+  }
+
+  .item-periodo .ui-g{
+    margin-top: -25px;
+  }
 }
