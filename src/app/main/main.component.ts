@@ -15,6 +15,8 @@ export class MainComponent implements OnInit {
   actividades: SelectItem[];
   pacienteForm: FormGroup;
 
+  periodos: SelectItem[];
+
   constructor(private fb: FormBuilder) {
     this.createForm();
   }
@@ -39,6 +41,11 @@ export class MainComponent implements OnInit {
     this.actividades = [
       {label: 'Aspiración de vías aéreas', value: 'Aspiración de vías aéreas'},
       {label: 'Aspiración de vías aéreas2', value: 'Aspiración de vías aéreas2'},
+    ];
+
+    this.periodos = [
+      {label: 'Horas', value: 'hours'},
+      {label: 'Días', value: 'days'},
     ];
   }
 

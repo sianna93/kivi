@@ -11,7 +11,8 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "electron": "electron .",
-    "electron-build": "ng build --prod && electron ."
+    "electron-build": "ng build --prod && electron .",
+    "electron-rebuild": "./node_modules/.bin/electron-rebuild.cmd --module-dir ../../ -f -w sqlite3"
   },
   "private": true,
   "dependencies": {
@@ -30,6 +31,7 @@
     "primeng": "^6.0.0",
     "rxjs": "^6.2.1",
     "rxjs-compat": "^6.2.1",
+    "sqlite3": "^4.0.1",
     "zone.js": "^0.8.14"
   },
   "devDependencies": {
@@ -43,6 +45,7 @@
     "codelyzer": "~4.4.2",
     "electron": "^2.0.3",
     "electron-packager": "^12.1.0",
+    "electron-rebuild": "^1.8.1",
     "jasmine-core": "~3.1.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~2.0.4",
