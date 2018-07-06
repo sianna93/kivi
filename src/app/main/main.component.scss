@@ -1,6 +1,11 @@
 @import '../../styles.scss';
 
 :host ::ng-deep {
+  .logo-header{
+    height: 56px;
+    position: absolute;
+    margin-left: -10px;
+  }
   .lema{
     text-align: center; width: 100%; color: rgb(153, 254, 255);
     margin-top: -20px;
