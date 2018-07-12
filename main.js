@@ -8,7 +8,7 @@ function createWindow () {
     width: 900,
     height: 650,
     backgroundColor: '#ffffff',
-    title: 'KIVI "Te cuida bien"',
+    title: 'KAVI "El aliado de los enfermeros"',
     icon: `file://${__dirname}/dist/assets/logo.png`
   })
 
