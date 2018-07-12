@@ -7,6 +7,7 @@ import {DiagnosticoService} from '../services/diagnostico/diagnostico.service';
 import {Diagnostico} from '../models/diagnostico';
 import {ActividadService} from '../services/actividad/actividad.service';
 import {Actividad} from '../models/actividad';
+import {FlashMessagesService} from "angular2-flash-messages";
 
 @Component({
   selector: 'app-main',
@@ -26,7 +27,8 @@ export class MainComponent implements OnInit {
   constructor(private fb: FormBuilder,
               private dominioService: DominioService,
               private diagnosticoService: DiagnosticoService,
-              private actividadService: ActividadService) {
+              private actividadService: ActividadService,
+              private flashMessageService: FlashMessagesService) {
     this.createForm();
   }
 
@@ -52,7 +54,7 @@ export class MainComponent implements OnInit {
     ];
   }
 
-  private changeValueDominio(){
+  private changeValueDominio() {
     this.pacienteForm.get('dominio').valueChanges
       .subscribe((dominioId) => {
         this.diagnosticoService.getByDominio(dominioId).subscribe(
@@ -61,11 +63,11 @@ export class MainComponent implements OnInit {
               return {label: diagnostico.name, value: diagnostico.id};
             });
           }
-        )
+        );
     });
   }
 
-  private changeValueDiagnostico(){
+  private changeValueDiagnostico() {
     this.pacienteForm.get('diagnostico').valueChanges
       .subscribe((diagnosticoId) => {
         console.log(diagnosticoId);
@@ -75,7 +77,7 @@ export class MainComponent implements OnInit {
               return {label: actividad.name, value: actividad.id};
             });
           }
-        )
+        );
       });
   }
 
@@ -96,5 +98,14 @@ export class MainComponent implements OnInit {
 
   confirm() {
 
+  }
+
+  showAlarm() {
+    this.flashMessageService.show('Mostrando Alrma',
+      {
+        cssClass: 'ui-messages-success',
+        timeout: 3000,
+        closeOnClick: true,
+        showCloseBtn: true});
   }
 }

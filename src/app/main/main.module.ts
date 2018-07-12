@@ -4,6 +4,8 @@ import { MainComponent } from './main.component';
 import {MainRoutingModule} from './main-routing.module';
 import {DropdownModule, InputTextModule, ListboxModule, MultiSelectModule, ScrollPanelModule, TabViewModule} from 'primeng/primeng';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {FlashMessagesService} from 'angular2-flash-messages';
+import {ButtonModule} from 'primeng/button';
 
 @NgModule({
   imports: [
@@ -16,8 +18,10 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     ReactiveFormsModule,
     ListboxModule,
     MultiSelectModule,
-    ScrollPanelModule
+    ScrollPanelModule,
+    ButtonModule
   ],
-  declarations: [MainComponent]
+  declarations: [MainComponent],
+  providers: []
 })
 export class MainModule { }

@@ -10,6 +10,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {DominioService} from './services/dominio/dominio.service';
 import {DiagnosticoService} from './services/diagnostico/diagnostico.service';
 import {ActividadService} from './services/actividad/actividad.service';
+import {FlashMessagesModule, FlashMessagesService} from "angular2-flash-messages";
 
 @NgModule({
   declarations: [
@@ -20,13 +21,15 @@ import {ActividadService} from './services/actividad/actividad.service';
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule, // <-- here
-    ReactiveFormsModule
+    ReactiveFormsModule,
     // RoundProgressModule, // <-- and here
+    FlashMessagesModule
   ],
   providers: [
     DominioService,
     DiagnosticoService,
-    ActividadService
+    ActividadService,
+    FlashMessagesService
   ],
   bootstrap: [AppComponent]
 })
