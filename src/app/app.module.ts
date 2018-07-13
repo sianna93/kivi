@@ -11,6 +11,8 @@ import {DominioService} from './services/dominio/dominio.service';
 import {DiagnosticoService} from './services/diagnostico/diagnostico.service';
 import {ActividadService} from './services/actividad/actividad.service';
 import {FlashMessagesModule, FlashMessagesService} from "angular2-flash-messages";
+import {MessageService} from 'primeng/components/common/messageservice';
+import {GrowlModule} from 'primeng/growl';
 
 @NgModule({
   declarations: [
@@ -23,13 +25,15 @@ import {FlashMessagesModule, FlashMessagesService} from "angular2-flash-messages
     FormsModule, // <-- here
     ReactiveFormsModule,
     // RoundProgressModule, // <-- and here
-    FlashMessagesModule
+    FlashMessagesModule,
+    GrowlModule
   ],
   providers: [
     DominioService,
     DiagnosticoService,
     ActividadService,
-    FlashMessagesService
+    FlashMessagesService,
+    MessageService
   ],
   bootstrap: [AppComponent]
 })

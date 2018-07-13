@@ -8,6 +8,7 @@ import {Diagnostico} from '../models/diagnostico';
 import {ActividadService} from '../services/actividad/actividad.service';
 import {Actividad} from '../models/actividad';
 import {FlashMessagesService} from "angular2-flash-messages";
+import {MessageService} from 'primeng/components/common/messageservice';
 
 @Component({
   selector: 'app-main',
@@ -28,7 +29,8 @@ export class MainComponent implements OnInit {
               private dominioService: DominioService,
               private diagnosticoService: DiagnosticoService,
               private actividadService: ActividadService,
-              private flashMessageService: FlashMessagesService) {
+              private flashMessageService: FlashMessagesService,
+              private messageService: MessageService) {
     this.createForm();
   }
 
@@ -101,11 +103,25 @@ export class MainComponent implements OnInit {
   }
 
   showAlarm() {
-    this.flashMessageService.show('Mostrando Alrma',
+    setTimeout(() => this.flashMessageService.show(
+      'ALARM CLOCK WAKE UP 1',
+      {cssClass: 'ui-messages-success', timeout: 5000}
+    ), 5000);
+
+    setTimeout(() =>
+      this.messageService.add({severity:'info', summary:'Service Message', detail:'Via MessageService'}),
+      4000);
+    setTimeout(() =>
+        this.messageService.add({severity:'info', summary:'Service Message', detail:'Via MessageService'}),
+      4500);
+    setTimeout(() =>
+        this.messageService.add({severity:'info', summary:'Service Message', detail:'Via MessageService'}),
+      5000);
+    /*this.flashMessageService.show('Mostrando Alrma',
       {
         cssClass: 'ui-messages-success',
         timeout: 3000,
         closeOnClick: true,
-        showCloseBtn: true});
+        showCloseBtn: true});*/
   }
 }
