@@ -69,23 +69,24 @@
             <div class="ui-g-12">
               <div class="ui-g-3">Dominios: </div>
               <div class="ui-g-9">
-                <p-dropdown [options]="dominios" formControlName="dominio"
+                <p-dropdown [options]="dominios" formControlName="dominio" [style]="{'width': '100%', 'font-size': '14px', 'margin-top': '-5px'}"
                             placeholder="Seleccione un Dominio"></p-dropdown>
               </div>
             </div>
             <div class="ui-g-12">
               <div class="ui-g-3">Diagnóstico: </div>
               <div class="ui-g-9">
-                <p-dropdown [options]="diagnosticos" formControlName="diagnostico"
+                <p-dropdown [options]="diagnosticos" formControlName="diagnostico" [style]="{'width': '100%', 'font-size': '14px', 'margin-top': '-5px'}"
                             placeholder="Seleccione un Diagnostico"></p-dropdown>
               </div>
             </div>
             <div class="ui-g-12">
               <div class="ui-g-3">Actividades: </div>
-              <div class="ui-g-9">
-                <p-multiSelect [style]="{'width': '100%'}" [options]="actividades" formControlName="actividad"
+              <div class="ui-g-7">
+                <p-multiSelect [style]="{'width': '100%', 'font-size': '14px', 'margin-top': '-5px'}" [options]="actividades" formControlName="actividades" placeholder=""
                                 filterPlaceHolder="Escoja la Actividad"></p-multiSelect>
               </div>
+              <button label="Agregar" pButton (click)="addAcctivity()"></button>
             </div>
 
             <div class="ui-g-12">
@@ -93,88 +94,37 @@
                 <thead>
                   <tr>
                     <th style="width: 30%">Diagnóstico</th>
-                    <th style="width: 30%">Actividades</th>
-                    <th style="width: 40%">Periodo</th>
+                    <th style="width: 38%">Actividades</th>
+                    <th style="width: 25%">Periodo</th>
+                    <th style="width: 7%">X</th>
                   </tr>
                 </thead>
               </table>
 
-              <p-scrollPanel [style]="{'width': '100%', 'height': '140px', 'background-color': '#CCFECC', 'border': 'none'}">
+              <p-scrollPanel [style]="{'width': '100%', 'height': '100%', 'max-height': '195px', 'background-color': '#CCFECC', 'border': 'none'}">
                 <table class="table-editable" border="0">
                   <tbody>
-                    <tr>
+                    <tr *ngFor="let activity of activitiesClock">
                        <td style="width: 30%" class="item-dialogo">
-                         <div>Diag 1</div>
+                         <div>{{getDiagnostico(activity.diagnosticoId).name}}</div>
                        </td>
-                       <td style="width: 30%" class="item-actividad">
-                         <div>Actividad</div>
+                       <td style="width: 38%" class="item-actividad">
+                         <div>{{activity.name}}</div>
                        </td>
-                       <td style="width: 40%" class="item-periodo">
-                         <div class="ui-g">
+                       <td style="width: 25%" class="item-periodo">
+                         <div class="ui-g" style="margin-left: -15.5px">
                            <div class="ui-g-6">
-                             <input type="number" size="4" pInputText>
+                             <input type="number" size="4" min="0" (keypress)="updateTimePeriod($event, activity.id)" pInputText>
                            </div>
                            <div class="ui-g-6">
-                             <p-dropdown [options]="periodos" autoWidth="false" placeholder="Periodo"></p-dropdown>
+                             <p-dropdown [options]="periodos" autoWidth="false" placeholder="Periodo"
+                                         [style]="{'width': '100%', 'font-size': '14px', 'margin-left': '-5px'}"></p-dropdown>
                            </div>
                          </div>
                        </td>
-                    </tr>
-
-                    <tr>
-                      <td style="width: 30%" class="item-dialogo">
-                        <div>Diag 1</div>
-                      </td>
-                      <td style="width: 30%" class="item-actividad">
-                        <div>Actividad</div>
-                      </td>
-                      <td style="width: 40%" class="item-periodo">
-                        <div class="ui-g">
-                          <div class="ui-g-6">
-                            <input type="number" size="4" pInputText>
-                          </div>
-                          <div class="ui-g-6">
-                            <p-dropdown [options]="periodos" autoWidth="false" placeholder="Periodo"></p-dropdown>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-
-                    <tr>
-                      <td style="width: 30%" class="item-dialogo">
-                        <div>Diag 1</div>
-                      </td>
-                      <td style="width: 30%" class="item-actividad">
-                        <div>Actividad</div>
-                      </td>
-                      <td style="width: 40%" class="item-periodo">
-                        <div class="ui-g">
-                          <div class="ui-g-6">
-                            <input type="number" size="4" pInputText>
-                          </div>
-                          <div class="ui-g-6">
-                            <p-dropdown [options]="periodos" autoWidth="false" placeholder="Periodo"></p-dropdown>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-
-                    <tr>
-                      <td style="width: 30%" class="item-dialogo">
-                        <div>Diag 1</div>
-                      </td>
-                      <td style="width: 30%" class="item-actividad">
-                        <div>Actividad</div>
-                      </td>
-                      <td style="width: 40%" class="item-periodo">
-                        <div class="ui-g">
-                          <div class="ui-g-6">
-                            <input type="number" size="4" pInputText>
-                          </div>
-                          <div class="ui-g-6">
-                            <p-dropdown [options]="periodos" autoWidth="false" placeholder="Periodo"></p-dropdown>
-                          </div>
-                        </div>
+                      <td style="width: 7%" >
+                        <button icon="pi pi-times" type="button" class="ui-button-danger" pButton (click)="deleteActivity(activity.id)"
+                                style="width: 25px; height: 22px; margin-top: -5px"></button>
                       </td>
                     </tr>
                   </tbody>
@@ -188,9 +138,42 @@
         <ng-template pTemplate="content">
           <h3>Resumen Recordatorio</h3>
           <div class="ui-g" style="margin-top: 35px">
-            <div class="ui-g-12" style="margin-top: 10px">
-              <button label="mostrarAlarma" pButton (click)="showAlarm()"></button>
+            <div class="ui-g-8" style="margin-top: -10px; font-size: 13px">
+              <div class="ui-g-8 inline"><b>Nombres y Apellidos: </b>{{pacienteForm.get('names').value}}</div>
+              <div class="ui-g-4 inline"><b>Edad: </b>{{pacienteForm.get('edad').value}}</div>
+              <div class="ui-g-8 inline"><b>Cédula: </b>{{pacienteForm.get('cedula').value}}</div>
+              <div class="ui-g-4 inline"><b>Género: </b>{{pacienteForm.get('gender').value}}</div>
+              <div class="ui-g-12 inline"><b>No de Historia Clínica: </b>{{pacienteForm.get('clinic_number').value}}</div>
             </div>
+
+            <div class="ui-g-4" style="margin-top: -10px;">
+              <div class="title-bed-room">Habitación / Cama</div>
+              <div class="content-bed-room">{{pacienteForm.get('room').value}} / {{pacienteForm.get('bed').value}}</div>
+            </div>
+            <button label="mostrarAlarma" pButton (click)="showAlarm()"></button>
+
+            <table class="table-editable table-no-editable" border="0">
+              <tbody>
+              <tr *ngFor="let activity of activitiesClock">
+                <td style="width: 30%" class="item-dialogo">
+                  <div>{{getDiagnostico(activity.diagnosticoId).name}}</div>
+                </td>
+                <td style="width: 38%" class="item-actividad">
+                  <div>{{activity.name}}</div>
+                </td>
+                <td style="width: 25%" class="item-periodo">
+                  <div class="ui-g" style="margin-left: -15.5px">
+                    <!--<div class="ui-g-6">
+                      <div>{{activity.period.time}}</div>
+                    </div>
+                    <div class="ui-g-6">
+                      <div>{{activity.period.type}}</div>
+                    </div>-->
+                  </div>
+                </td>
+              </tr>
+              </tbody>
+            </table>
           </div>
         </ng-template>
       </p-tabPanel>

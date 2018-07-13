@@ -24,6 +24,7 @@ export class MainComponent implements OnInit {
   pacienteForm: FormGroup;
 
   periodos: SelectItem[];
+  activitiesClock: Actividad[];
 
   constructor(private fb: FormBuilder,
               private dominioService: DominioService,
@@ -52,13 +53,17 @@ export class MainComponent implements OnInit {
 
     this.periodos = [
       {label: 'Horas', value: 'hours'},
-      {label: 'Días', value: 'days'},
+      {label: 'Minutos', value: 'min'},
     ];
+
+    this.activitiesClock = [];
   }
 
   private changeValueDominio() {
     this.pacienteForm.get('dominio').valueChanges
       .subscribe((dominioId) => {
+        this.pacienteForm.get('diagnostico').setValue(null);
+        this.pacienteForm.get('actividades').setValue(null);
         this.diagnosticoService.getByDominio(dominioId).subscribe(
           (values: Diagnostico[]) => {
             this.diagnosticos = values.map((diagnostico: Diagnostico) => {
@@ -72,11 +77,11 @@ export class MainComponent implements OnInit {
   private changeValueDiagnostico() {
     this.pacienteForm.get('diagnostico').valueChanges
       .subscribe((diagnosticoId) => {
-        console.log(diagnosticoId);
+        this.pacienteForm.get('actividades').setValue(null);
         this.actividadService.getByDiagnostico(diagnosticoId).subscribe(
           (values: Actividad[]) => {
             this.actividades = values.map((actividad: Actividad) => {
-              return {label: actividad.name, value: actividad.id};
+              return {label: actividad.name, value: actividad};
             });
           }
         );
@@ -94,12 +99,29 @@ export class MainComponent implements OnInit {
       bed: [null, Validators.required ],
       dominio: [null, Validators.required ],
       diagnostico: [null, Validators.required ],
-      actividad: [[], Validators.required ],
+      actividades: [null, Validators.required ],
     });
   }
 
   confirm() {
 
+  }
+
+  public getDiagnostico(diagnosticoId): Diagnostico {
+    let value: Diagnostico;
+    this.diagnosticoService.get(diagnosticoId).subscribe((diagnostico: Diagnostico) => {
+      value = diagnostico;
+    });
+
+    return value;
+  }
+
+  public addAcctivity() {
+    const newActivities: Actividad[] = this.pacienteForm.get('actividades').value;
+    console.log(this.pacienteForm.get('actividades').value);
+    for ( const actividad of newActivities) {
+      this.activitiesClock.push(actividad);
+    }
   }
 
   showAlarm() {
@@ -123,5 +145,23 @@ export class MainComponent implements OnInit {
         timeout: 3000,
         closeOnClick: true,
         showCloseBtn: true});*/
+  }
+
+  deleteActivity(id) {
+    const tempActivities: Actividad[] = [];
+
+    for (const item of this.activitiesClock) {
+      if (item.id !== id) {
+        tempActivities.push(item);
+      }
+    }
+
+    this.activitiesClock = tempActivities;
+  }
+
+  updateTimePeriod(event, id) {
+    console.log(event);
+    const actividad = this.activitiesClock.find( a => a.id === id);
+    console.log(actividad);
   }
 }
