@@ -93,38 +93,40 @@
               <table class="table-editable" border="0">
                 <thead>
                   <tr>
-                    <th style="width: 30%">Diagnóstico</th>
-                    <th style="width: 38%">Actividades</th>
-                    <th style="width: 25%">Periodo</th>
-                    <th style="width: 7%">X</th>
+                    <th style="width:300px">Diagnóstico</th>
+                    <th>Actividades</th>
+                    <th style="width: 180px">Periodo</th>
+                    <th style="width: 40px">X</th>
                   </tr>
                 </thead>
               </table>
 
-              <p-scrollPanel [style]="{'width': '100%', 'height': '100%', 'max-height': '195px', 'background-color': '#CCFECC', 'border': 'none'}">
-                <table class="table-editable" border="0">
-                  <tbody>
-                    <tr *ngFor="let activity of activitiesClock">
-                       <td style="width: 30%" class="item-dialogo">
-                         <div>{{getDiagnostico(activity.diagnosticoId).name}}</div>
+              <p-scrollPanel [style]="{'width': '100%', 'height': '100%', 'max-height': '210px',
+                                      'background-color': '#CCFECC', 'border': 'none'}">
+                <table class="table-editable" border="0" data-value="" [formGroup]="pacienteForm.get('itemActividades')">
+                  <tbody *ngIf="pacienteForm.controls['itemActividades'].controls">
+                    <tr *ngFor="let item of pacienteForm.controls['itemActividades'].controls">
+                       <td style="width: 300px" class="item-dialogo">
+                         <div>{{getDiagnostico(item.get('activity').value.diagnosticoId).name}}</div>
                        </td>
-                       <td style="width: 38%" class="item-actividad">
-                         <div>{{activity.name}}</div>
+                       <td  class="item-actividad">
+                         <div>{{item.get('activity').value.name}}</div>
                        </td>
-                       <td style="width: 25%" class="item-periodo">
-                         <div class="ui-g" style="margin-left: -15.5px">
-                           <div class="ui-g-6">
-                             <input type="number" size="4" min="0" (keypress)="updateTimePeriod($event, activity.id)" pInputText>
+                       <td style="width: 195px" class="item-periodo">
+                         <div class="ui-g" style="margin-left: -10px" [formGroup]="item">
+                           <div class="ui-g-5">
+                             <input type="number" size="4" min="0" pInputText formControlName="time">
                            </div>
-                           <div class="ui-g-6">
+                           <div class="ui-g-7">
                              <p-dropdown [options]="periodos" autoWidth="false" placeholder="Periodo"
-                                         [style]="{'width': '100%', 'font-size': '14px', 'margin-left': '-5px'}"></p-dropdown>
+                                         [style]="{'width': '100%', 'font-size': '14px', 'margin-left': '-5px'}"
+                                         formControlName="type" appendTo="body"></p-dropdown>
                            </div>
                          </div>
                        </td>
-                      <td style="width: 7%" >
-                        <button icon="pi pi-times" type="button" class="ui-button-danger" pButton (click)="deleteActivity(activity.id)"
-                                style="width: 25px; height: 22px; margin-top: -5px"></button>
+                      <td style="width: 40px" >
+                        <button icon="pi pi-times" type="button" class="ui-button-danger" pButton (click)="deleteActivity(item)"
+                                style="width: 25px; height: 22px; margin-top: -5px; margin-left: -7px"></button>
                       </td>
                     </tr>
                   </tbody>
@@ -153,22 +155,22 @@
             <button label="mostrarAlarma" pButton (click)="showAlarm()"></button>
 
             <table class="table-editable table-no-editable" border="0">
-              <tbody>
-              <tr *ngFor="let activity of activitiesClock">
+              <tbody *ngIf="pacienteForm.controls['itemActividades'].controls">
+              <tr *ngFor="let item of pacienteForm.controls['itemActividades'].controls">
                 <td style="width: 30%" class="item-dialogo">
-                  <div>{{getDiagnostico(activity.diagnosticoId).name}}</div>
+                  <div>{{getDiagnostico(item.get('activity').value.diagnosticoId).name}}</div>
                 </td>
                 <td style="width: 38%" class="item-actividad">
-                  <div>{{activity.name}}</div>
+                  <div>{{item.get('activity').value.name}}</div>
                 </td>
                 <td style="width: 25%" class="item-periodo">
                   <div class="ui-g" style="margin-left: -15.5px">
-                    <!--<div class="ui-g-6">
-                      <div>{{activity.period.time}}</div>
+                    <div class="ui-g-6">
+                      <div>{{item.get('time').value}}</div>
                     </div>
                     <div class="ui-g-6">
-                      <div>{{activity.period.type}}</div>
-                    </div>-->
+                      <div>{{item.get('type').value}}</div>
+                    </div>
                   </div>
                 </td>
               </tr>

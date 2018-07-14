@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {SelectItem} from 'primeng/primeng';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {DominioService} from '../services/dominio/dominio.service';
 import {Dominio} from '../models/dominio';
 import {DiagnosticoService} from '../services/diagnostico/diagnostico.service';
@@ -9,6 +9,8 @@ import {ActividadService} from '../services/actividad/actividad.service';
 import {Actividad} from '../models/actividad';
 import {FlashMessagesService} from "angular2-flash-messages";
 import {MessageService} from 'primeng/components/common/messageservice';
+import {isStrictNullChecksEnabled} from 'tslint';
+import {isNullOrUndefined} from "util";
 
 @Component({
   selector: 'app-main',
@@ -52,8 +54,8 @@ export class MainComponent implements OnInit {
     this.changeValueDiagnostico();
 
     this.periodos = [
-      {label: 'Horas', value: 'hours'},
-      {label: 'Minutos', value: 'min'},
+      {label: 'Horas', value: 'Horas'},
+      {label: 'Minutos', value: 'Minutos'},
     ];
 
     this.activitiesClock = [];
@@ -97,9 +99,10 @@ export class MainComponent implements OnInit {
       clinic_number: [null, Validators.required ],
       room: [null, Validators.required ],
       bed: [null, Validators.required ],
-      dominio: [null, Validators.required ],
-      diagnostico: [null, Validators.required ],
-      actividades: [null, Validators.required ],
+      dominio: null,
+      diagnostico: null,
+      actividades: null,
+      itemActividades: null
     });
   }
 
@@ -118,10 +121,21 @@ export class MainComponent implements OnInit {
 
   public addAcctivity() {
     const newActivities: Actividad[] = this.pacienteForm.get('actividades').value;
-    console.log(this.pacienteForm.get('actividades').value);
+    const temporalAbstractControls: AbstractControl[] =
+      isNullOrUndefined((<FormArray> this.pacienteForm.controls['itemActividades']).controls)  ?  [] : [...(<FormArray> this.pacienteForm.controls['itemActividades']).controls];
+
     for ( const actividad of newActivities) {
-      this.activitiesClock.push(actividad);
+
+      const newItem: FormGroup = this.fb.group({
+        id: actividad.id,
+        activity: actividad,
+        time: null,
+        type: null
+      });
+      temporalAbstractControls.push(newItem);
     }
+
+    (<FormArray> this.pacienteForm.controls['itemActividades']).controls = temporalAbstractControls;
   }
 
   showAlarm() {
@@ -147,21 +161,9 @@ export class MainComponent implements OnInit {
         showCloseBtn: true});*/
   }
 
-  deleteActivity(id) {
-    const tempActivities: Actividad[] = [];
-
-    for (const item of this.activitiesClock) {
-      if (item.id !== id) {
-        tempActivities.push(item);
-      }
-    }
-
-    this.activitiesClock = tempActivities;
-  }
-
-  updateTimePeriod(event, id) {
-    console.log(event);
-    const actividad = this.activitiesClock.find( a => a.id === id);
-    console.log(actividad);
+  deleteActivity(item) {
+    const temporalAbstractControls: AbstractControl[] = [...(<FormArray> this.pacienteForm.controls['itemActividades']).controls];
+    temporalAbstractControls.splice(temporalAbstractControls.indexOf(item), 1);
+    (<FormArray> this.pacienteForm.controls['itemActividades']).controls = temporalAbstractControls;
   }
 }
