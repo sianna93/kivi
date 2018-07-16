@@ -1,184 +1,216 @@
 <div>
   <!--<h2 style="text-align: center; width: 100%; color: white">KAVI</h2>
   <div class="lema">'El Aliado de los Enfermeros'</div>-->
-  <img class="logo-header" src="../../assets/kavi_white.png"/>
+  <img class="logo-header" src="assets/kavi_white.png"/>
 </div>
 
+<!--<div class="text">
+  <audio src="assets/chime.mp3" autoplay></audio>
+</div>-->
+
 <form [formGroup]="pacienteForm" (ngSubmit)="confirm()">
-  <div class="content-main ">
-    <p-tabView orientation="left">
-      <p-tabPanel header="1) Datos" class="container-main form-group">
-        <ng-template pTemplate="content">
-          <h3>Datos del Paciente</h3>
-          <div style="margin-top: 35px" class="ui-g">
-            <div class="ui-g-12">
-              <span class="ui-float-label">
-                  <input id="float-input" type="text" size="30" formControlName="names" pInputText>
-                  <label for="float-input">Nombres y Apellidos</label>
-              </span>
-            </div>
+<div class="content-main ">
+<p-tabView orientation="left" (onChange)="handleChange($event)">
+<p-tabPanel header="1) Datos" class="container-main form-group" [disabled]="!enableDatos" [selected]="enableDatos" >
+  <ng-template pTemplate="content">
+    <h3>Datos del Paciente</h3>
+    <div style="margin-top: 35px" class="ui-g">
+      <div class="ui-g-12">
+        <span class="ui-float-label">
+            <input id="float-input" type="text" size="30" formControlName="names" pInputText>
+            <label for="float-input">Nombres y Apellidos</label>
+        </span>
+      </div>
 
-            <div class="ui-g-12" style="margin-top: 10px">
-              <div class="ui-g-4">
-                <span class="ui-float-label">
-                    <input id="float-ci" type="text" size="30" formControlName="cedula" pInputText>
-                    <label for="float-ci">Cédula</label>
-                </span>
-              </div>
+      <div class="ui-g-12" style="margin-top: 10px">
+        <div class="ui-g-4">
+          <span class="ui-float-label">
+              <input id="float-ci" type="text" size="30" formControlName="cedula" pInputText>
+              <label for="float-ci">Cédula</label>
+          </span>
+        </div>
 
-              <div class="ui-g-4">
-                <span class="ui-float-label">
-                    <input id="float-edad" type="text" size="30" formControlName="edad" pInputText>
-                    <label for="float-edad">Edad</label>
-                </span>
-              </div>
+        <div class="ui-g-4">
+          <span class="ui-float-label">
+              <input id="float-edad" type="text" size="30" formControlName="edad" pInputText>
+              <label for="float-edad">Edad</label>
+          </span>
+        </div>
 
-              <div class="ui-g-4">
-                <p-dropdown [options]="generos" formControlName="gender"></p-dropdown>
-              </div>
-            </div>
+        <div class="ui-g-4">
+          <p-dropdown [options]="generos" formControlName="gender"></p-dropdown>
+        </div>
+      </div>
 
-            <div class="ui-g-12" style="margin-top: 10px">
-              <div class="ui-g-8">
-                <span class="ui-float-label">
-                    <input id="float-hisClin" type="text" size="20" formControlName="clinic_number" pInputText>
-                    <label for="float-hisClin">No Historia Clínica</label>
-                </span>
-              </div>
+      <div class="ui-g-12" style="margin-top: 10px">
+        <div class="ui-g-8">
+          <span class="ui-float-label">
+              <input id="float-hisClin" type="text" size="20" formControlName="clinic_number" pInputText>
+              <label for="float-hisClin">No Historia Clínica</label>
+          </span>
+        </div>
 
-              <div class="ui-g-2">
-                <span class="ui-float-label">
-                    <input id="float-room" type="text" size="4" formControlName="room" pInputText>
-                    <label for="float-room">Habitación</label>
-                </span>
-              </div>
-              <div class="ui-g-2">
-                <span class="ui-float-label">
-                    <input id="float-bed" type="text" size="4" formControlName="bed" pInputText>
-                    <label for="float-bed">Cama</label>
-                </span>
-              </div>
-            </div>
-          </div>
-        </ng-template>
-      </p-tabPanel>
-      <p-tabPanel header="2) Diagnóstico" class="container-main container-diagnostico form-group">
-        <ng-template pTemplate="content">
-          <h3>Diagnóstico de Enfermería</h3>
-          <div class="ui-g" style="margin-top: -5px">
-            <div class="ui-g-12">
-              <div class="ui-g-3">Dominios: </div>
-              <div class="ui-g-9">
-                <p-dropdown [options]="dominios" formControlName="dominio" [style]="{'width': '100%', 'font-size': '14px', 'margin-top': '-5px'}"
-                            placeholder="Seleccione un Dominio"></p-dropdown>
-              </div>
-            </div>
-            <div class="ui-g-12">
-              <div class="ui-g-3">Diagnóstico: </div>
-              <div class="ui-g-9">
-                <p-dropdown [options]="diagnosticos" formControlName="diagnostico" [style]="{'width': '100%', 'font-size': '14px', 'margin-top': '-5px'}"
-                            placeholder="Seleccione un Diagnostico"></p-dropdown>
-              </div>
-            </div>
-            <div class="ui-g-12">
-              <div class="ui-g-3">Actividades: </div>
-              <div class="ui-g-7">
-                <p-multiSelect [style]="{'width': '100%', 'font-size': '14px', 'margin-top': '-5px'}" [options]="actividades" formControlName="actividades" placeholder=""
-                                filterPlaceHolder="Escoja la Actividad"></p-multiSelect>
-              </div>
-              <button label="Agregar" pButton (click)="addAcctivity()"></button>
-            </div>
+        <div class="ui-g-2">
+          <span class="ui-float-label">
+              <input id="float-room" type="text" size="4" formControlName="room" pInputText>
+              <label for="float-room">Habitación</label>
+          </span>
+        </div>
+        <div class="ui-g-2">
+          <span class="ui-float-label">
+              <input id="float-bed" type="text" size="4" formControlName="bed" pInputText>
+              <label for="float-bed">Cama</label>
+          </span>
+        </div>
+      </div>
 
-            <div class="ui-g-12">
-              <table class="table-editable" border="0">
-                <thead>
-                  <tr>
-                    <th style="width:300px">Diagnóstico</th>
-                    <th>Actividades</th>
-                    <th style="width: 180px">Periodo</th>
-                    <th style="width: 40px">X</th>
-                  </tr>
-                </thead>
-              </table>
+      <div class="ui-g-10" style="margin-top: 0px;"></div>
+      <div class="ui-g-2" style="margin-top: 0px;">
+        <button label="Siguiente" pButton (click)="changeTab(false, true, false)" [disabled]="!pacienteForm.valid"></button>
+      </div>
+    </div>
+  </ng-template>
+</p-tabPanel>
+<p-tabPanel header="2) Diagnóstico" class="container-main container-diagnostico form-group"
+            [disabled]="!enableDiagnostico" [selected]="enableDiagnostico" >
+  <ng-template pTemplate="content">
+    <h3>Diagnóstico de Enfermería</h3>
+    <div class="ui-g" style="margin-top: -5px">
+      <div class="ui-g-12">
+        <div class="ui-g-3">Dominios: </div>
+        <div class="ui-g-9">
+          <p-dropdown [options]="dominios" formControlName="dominio" [style]="{'width': '100%', 'font-size': '14px', 'margin-top': '-5px'}"
+                      placeholder="Seleccione un Dominio"></p-dropdown>
+        </div>
+      </div>
+      <div class="ui-g-12">
+        <div class="ui-g-3">Diagnóstico: </div>
+        <div class="ui-g-9">
+          <p-dropdown [options]="diagnosticos" formControlName="diagnostico" [style]="{'width': '100%', 'font-size': '14px', 'margin-top': '-5px'}"
+                      placeholder="Seleccione un Diagnostico"></p-dropdown>
+        </div>
+      </div>
+      <div class="ui-g-12">
+        <div class="ui-g-3">Actividades: </div>
+        <div class="ui-g-7">
+          <p-multiSelect [style]="{'width': '100%', 'font-size': '14px', 'margin-top': '-5px'}" [options]="actividades" formControlName="actividades" placeholder=""
+                          filterPlaceHolder="Escoja la Actividad"></p-multiSelect>
+        </div>
+        <button label="Agregar" pButton (click)="addAcctivity()"></button>
+      </div>
 
-              <p-scrollPanel [style]="{'width': '100%', 'height': '100%', 'max-height': '210px',
-                                      'background-color': '#CCFECC', 'border': 'none'}">
-                <table class="table-editable" border="0" data-value="" [formGroup]="pacienteForm.get('itemActividades')">
-                  <tbody *ngIf="pacienteForm.controls['itemActividades'].controls">
-                    <tr *ngFor="let item of pacienteForm.controls['itemActividades'].controls">
-                       <td style="width: 300px" class="item-dialogo">
-                         <div>{{getDiagnostico(item.get('activity').value.diagnosticoId).name}}</div>
-                       </td>
-                       <td  class="item-actividad">
-                         <div>{{item.get('activity').value.name}}</div>
-                       </td>
-                       <td style="width: 195px" class="item-periodo">
-                         <div class="ui-g" style="margin-left: -10px" [formGroup]="item">
-                           <div class="ui-g-5">
-                             <input type="number" size="4" min="0" pInputText formControlName="time">
-                           </div>
-                           <div class="ui-g-7">
-                             <p-dropdown [options]="periodos" autoWidth="false" placeholder="Periodo"
-                                         [style]="{'width': '100%', 'font-size': '14px', 'margin-left': '-5px'}"
-                                         formControlName="type" appendTo="body"></p-dropdown>
-                           </div>
-                         </div>
-                       </td>
-                      <td style="width: 40px" >
-                        <button icon="pi pi-times" type="button" class="ui-button-danger" pButton (click)="deleteActivity(item)"
-                                style="width: 25px; height: 22px; margin-top: -5px; margin-left: -7px"></button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </p-scrollPanel>
-            </div>
-          </div>
-        </ng-template>
-      </p-tabPanel>
-      <p-tabPanel header="3) Resumen" class="container-main">
-        <ng-template pTemplate="content">
-          <h3>Resumen Recordatorio</h3>
-          <div class="ui-g" style="margin-top: 35px">
-            <div class="ui-g-8" style="margin-top: -10px; font-size: 13px">
-              <div class="ui-g-8 inline"><b>Nombres y Apellidos: </b>{{pacienteForm.get('names').value}}</div>
-              <div class="ui-g-4 inline"><b>Edad: </b>{{pacienteForm.get('edad').value}}</div>
-              <div class="ui-g-8 inline"><b>Cédula: </b>{{pacienteForm.get('cedula').value}}</div>
-              <div class="ui-g-4 inline"><b>Género: </b>{{pacienteForm.get('gender').value}}</div>
-              <div class="ui-g-12 inline"><b>No de Historia Clínica: </b>{{pacienteForm.get('clinic_number').value}}</div>
-            </div>
+      <div class="ui-g-12">
+        <table class="table-editable" border="0">
+          <thead>
+            <tr>
+              <th style="width:300px">Diagnóstico</th>
+              <th>Actividades</th>
+              <th style="width: 180px">Periodo</th>
+              <th style="width: 40px">X</th>
+            </tr>
+          </thead>
+        </table>
 
-            <div class="ui-g-4" style="margin-top: -10px;">
-              <div class="title-bed-room">Habitación / Cama</div>
-              <div class="content-bed-room">{{pacienteForm.get('room').value}} / {{pacienteForm.get('bed').value}}</div>
-            </div>
-            <button label="mostrarAlarma" pButton (click)="showAlarm()"></button>
-
-            <table class="table-editable table-no-editable" border="0">
-              <tbody *ngIf="pacienteForm.controls['itemActividades'].controls">
+        <p-scrollPanel [style]="{'width': '100%', 'height': '100%', 'max-height': '210px',
+                                'background-color': '#CCFECC', 'border': 'none'}">
+          <table class="table-editable" border="0" data-value="" [formGroup]="pacienteForm.get('itemActividades')">
+            <tbody *ngIf="pacienteForm.controls['itemActividades'].controls">
               <tr *ngFor="let item of pacienteForm.controls['itemActividades'].controls">
-                <td style="width: 30%" class="item-dialogo">
-                  <div>{{getDiagnostico(item.get('activity').value.diagnosticoId).name}}</div>
-                </td>
-                <td style="width: 38%" class="item-actividad">
-                  <div>{{item.get('activity').value.name}}</div>
-                </td>
-                <td style="width: 25%" class="item-periodo">
-                  <div class="ui-g" style="margin-left: -15.5px">
-                    <div class="ui-g-6">
-                      <div>{{item.get('time').value}}</div>
-                    </div>
-                    <div class="ui-g-6">
-                      <div>{{item.get('type').value}}</div>
-                    </div>
-                  </div>
+                 <td style="width: 300px" class="item-dialogo">
+                   <div>{{getDiagnostico(item.get('activity').value.diagnosticoId).name}}</div>
+                 </td>
+                 <td  class="item-actividad">
+                   <div>{{item.get('activity').value.name}}</div>
+                 </td>
+                 <td style="width: 195px" class="item-periodo">
+                   <div class="ui-g" style="margin-left: -10px" [formGroup]="item">
+                     <div class="ui-g-5">
+                       <input type="number" size="4" min="0" pInputText formControlName="time">
+                     </div>
+                     <div class="ui-g-7">
+                       <p-dropdown [options]="periodos" autoWidth="false" placeholder="Periodo"
+                                   [style]="{'width': '100%', 'font-size': '14px', 'margin-left': '-5px'}"
+                                   formControlName="type" appendTo="body"></p-dropdown>
+                     </div>
+                   </div>
+                 </td>
+                <td style="width: 40px" >
+                  <button icon="pi pi-times" type="button" class="ui-button-danger" pButton (click)="deleteActivity(item)"
+                          style="width: 25px; height: 22px; margin-top: -5px; margin-left: -7px"></button>
                 </td>
               </tr>
-              </tbody>
-            </table>
-          </div>
-        </ng-template>
-      </p-tabPanel>
-    </p-tabView>
-  </div>
+            </tbody>
+          </table>
+        </p-scrollPanel>
+
+        <div class="ui-g-10" style="margin-top: 0px;">
+          <button label="Atras" pButton (click)="changeTab(true, false, false)"></button>
+        </div>
+        <div class="ui-g-2" style="margin-top: 0px;">
+          <button label="Siguiente" pButton (click)="changeTab(false, false, true)" [disabled]="!pacienteForm.valid"></button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</p-tabPanel>
+<p-tabPanel header="3) Resumen" class="container-main" [disabled]="!enableResumen" [selected]="enableResumen">
+  <ng-template pTemplate="content">
+    <h3>Resumen Recordatorio</h3>
+    <div class="ui-g" style="margin-top: 35px">
+      <div class="ui-g-8" style="margin-top: -10px; font-size: 13px">
+        <div class="ui-g-8 inline"><b>Nombres y Apellidos: </b>{{pacienteForm.get('names').value}}</div>
+        <div class="ui-g-4 inline"><b>Edad: </b>{{pacienteForm.get('edad').value}}</div>
+        <div class="ui-g-8 inline"><b>Cédula: </b>{{pacienteForm.get('cedula').value}}</div>
+        <div class="ui-g-4 inline"><b>Género: </b>{{pacienteForm.get('gender').value}}</div>
+        <div class="ui-g-12 inline"><b>No de Historia Clínica: </b>{{pacienteForm.get('clinic_number').value}}</div>
+      </div>
+
+      <div class="ui-g-4" style="margin-top: -10px;">
+        <div class="title-bed-room">Habitación / Cama</div>
+        <div class="content-bed-room">{{pacienteForm.get('room').value}} / {{pacienteForm.get('bed').value}}</div>
+      </div>
+
+      <table class="table-editable table-no-editable" border="0">
+        <thead>
+        <tr>
+          <th style="width:30%">Diagnóstico</th>
+          <th style="width:38%">Actividades</th>
+          <th style="width: 25%">Periodo</th>
+        </tr>
+        </thead>
+      </table>
+
+      <table class="table-editable table-no-editable" border="0">
+        <tbody *ngIf="pacienteForm.controls['itemActividades'].controls">
+        <tr *ngFor="let item of pacienteForm.controls['itemActividades'].controls">
+          <td style="width: 30%" class="item-dialogo">
+            <div>{{getDiagnostico(item.get('activity').value.diagnosticoId).name}}</div>
+          </td>
+          <td style="width: 38%" class="item-actividad">
+            <div>{{item.get('activity').value.name}}</div>
+          </td>
+          <td style="width: 25%" >
+            <div class="ui-g">
+              <div class="ui-g-6" class="item-period-text">
+                <div>{{item.get('time').value}}</div>
+              </div>
+              <div class="ui-g-6" class="item-period-text-reverse">
+                <div>{{item.get('type').value}}</div>
+              </div>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+        <div class="ui-g-10" style="margin-top: 0px;">
+          <button label="Atras" pButton (click)="changeTab(false, true, false)"></button>
+        </div>
+        <div class="ui-g-2" style="margin-top: 0px;">
+          <button label="Guardar" pButton (click)="showAlarm()"></button>
+        </div>
+    </div>
+  </ng-template>
+</p-tabPanel>
+</p-tabView>
+</div>
 </form>

@@ -28,6 +28,10 @@ export class MainComponent implements OnInit {
   periodos: SelectItem[];
   activitiesClock: Actividad[];
 
+  enableDatos: boolean;
+  enableDiagnostico: boolean;
+  enableResumen: boolean;
+
   constructor(private fb: FormBuilder,
               private dominioService: DominioService,
               private diagnosticoService: DiagnosticoService,
@@ -38,6 +42,10 @@ export class MainComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.enableDatos = true;
+    this.enableDiagnostico = false;
+    this.enableResumen = false;
+
     this.generos = [
       {label: 'Femenino', value: 'Femenino'},
       {label: 'Masculino', value: 'Masculino'},
@@ -127,10 +135,10 @@ export class MainComponent implements OnInit {
     for ( const actividad of newActivities) {
 
       const newItem: FormGroup = this.fb.group({
-        id: actividad.id,
-        activity: actividad,
-        time: null,
-        type: null
+        id: [actividad.id, Validators.required ],
+        activity: [actividad, Validators.required ],
+        time: [null, Validators.required ],
+        type: ['Minutos', Validators.required ]
       });
       temporalAbstractControls.push(newItem);
     }
@@ -138,32 +146,64 @@ export class MainComponent implements OnInit {
     (<FormArray> this.pacienteForm.controls['itemActividades']).controls = temporalAbstractControls;
   }
 
-  showAlarm() {
-    setTimeout(() => this.flashMessageService.show(
-      'ALARM CLOCK WAKE UP 1',
-      {cssClass: 'ui-messages-success', timeout: 5000}
-    ), 5000);
+  handleChange(e) {
+    var index = e.index;
+  }
 
-    setTimeout(() =>
-      this.messageService.add({severity:'info', summary:'Service Message', detail:'Via MessageService'}),
-      4000);
-    setTimeout(() =>
-        this.messageService.add({severity:'info', summary:'Service Message', detail:'Via MessageService'}),
-      4500);
-    setTimeout(() =>
-        this.messageService.add({severity:'info', summary:'Service Message', detail:'Via MessageService'}),
-      5000);
+  changeTab(datos: boolean, diagnostico: boolean, resumen: boolean) {
+    this.enableDatos = datos;
+    this.enableDiagnostico = diagnostico;
+    this.enableResumen = resumen;
+  }
+
+  showAlarm() {
+    const itemActividades: AbstractControl[] = (<FormArray> this.pacienteForm.controls['itemActividades']).controls;
+
+    for (const item of itemActividades) {
+      const actividad = item.get('activity').value.name;
+      const time = item.get('time').value;
+      const type = item.get('type').value;
+      const namePacient = this.pacienteForm.get('names').value;
+      const room = this.pacienteForm.get('room').value;
+      const bed = this.pacienteForm.get('bed').value;
+
+      const summary = actividad;
+      const detail = `${namePacient}\t ${room}/${bed}`;
+      setInterval(() => {
+          this.messageService.add({severity:'info', summary:summary, detail:detail});
+          const myAudio = new Audio('assets/chime.mp3');
+          myAudio.play();
+      }, this.calculateTime(time, type));
+    }
     /*this.flashMessageService.show('Mostrando Alrma',
       {
         cssClass: 'ui-messages-success',
         timeout: 3000,
         closeOnClick: true,
         showCloseBtn: true});*/
+
+    this.messageService.add(
+      {severity:'success', summary:'Paciente Registrado!',
+      detail:'Los datos fueron guardados exitosamente'});
+
+    this.clearAll();
+  }
+
+  calculateTime(time, type) {
+    if (!isNullOrUndefined(time)) {
+      const value: number = type === 'Horas' ? time * 3600000 : time * 60000;
+      return value;
+    }
   }
 
   deleteActivity(item) {
     const temporalAbstractControls: AbstractControl[] = [...(<FormArray> this.pacienteForm.controls['itemActividades']).controls];
     temporalAbstractControls.splice(temporalAbstractControls.indexOf(item), 1);
     (<FormArray> this.pacienteForm.controls['itemActividades']).controls = temporalAbstractControls;
+  }
+
+  clearAll(){
+    this.createForm();
+    this.changeTab(true, false, false);
   }
 }

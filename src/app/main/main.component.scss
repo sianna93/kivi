@@ -74,7 +74,7 @@
 
   .ui-tabview .ui-tabview-panel{
     background-color: $color-background;
-    height: 470px;
+    height: 500px;
     border-radius: 10px;
   }
 
@@ -124,6 +124,11 @@
 
 .table-no-editable{
   background-color: white;
+
+  th {
+    background-color: $color-background-main;
+    color: white;
+  }
 }
 
 .inline{
@@ -145,3 +150,19 @@
   background-color: white;
   height: 40px;
 }
+.item-period-text{
+  background-color: $color-background-main;
+  color: white;
+  text-align: center;
+  width: 50%;
+  height: 20px;
+}
+
+.item-period-text-reverse{
+  border: 1px solid $color-background-main;
+  background-color: white;
+  text-align: center;
+  width: 50%;
+  height: 20px;
+}
+

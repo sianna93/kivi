@@ -13,7 +13,9 @@ export class DominioService {
     {id: '1', name: 'Urinario'},
     {id: '2', name: 'Gastrointestinal'},
     {id: '3', name: 'Cardiovascular'},
-    {id: '4', name: 'Respiratorio'}
+    {id: '4', name: 'Respiratorio'},
+    {id: '5', name: 'Hidratación'},
+    {id: '6', name: 'Seguridad y Protección'}
   ];
 
   constructor() { }
