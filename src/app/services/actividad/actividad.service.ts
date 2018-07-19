@@ -203,4 +203,10 @@ export class ActividadService {
 
     return of(filter);
   }
+
+  public addPeriod(actividadId, id, time, type): void {
+    const findActividad = this.actividades.find(a => a.id === actividadId);
+
+    findActividad.period = {id: id, time: time, type: type};
+  }
 }

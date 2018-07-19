@@ -13,6 +13,7 @@ import {ActividadService} from './services/actividad/actividad.service';
 import {FlashMessagesModule, FlashMessagesService} from "angular2-flash-messages";
 import {MessageService} from 'primeng/components/common/messageservice';
 import {GrowlModule} from 'primeng/growl';
+import {PacienteService} from './services/paciente/paciente.service';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import {GrowlModule} from 'primeng/growl';
     DiagnosticoService,
     ActividadService,
     FlashMessagesService,
-    MessageService
+    MessageService,
+    PacienteService
   ],
   bootstrap: [AppComponent]
 })

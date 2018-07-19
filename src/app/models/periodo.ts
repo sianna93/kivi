@@ -1,6 +1,7 @@
 export interface Periodo {
+  id: any;
   time: number;
-  type: TiposPeriodo;
+  type: string;
 }
 
 export enum TiposPeriodo {

@@ -11,6 +11,10 @@ import {FlashMessagesService} from "angular2-flash-messages";
 import {MessageService} from 'primeng/components/common/messageservice';
 import {isStrictNullChecksEnabled} from 'tslint';
 import {isNullOrUndefined} from "util";
+import {Paciente} from '../models/paciente';
+import {Periodo} from '../models/periodo';
+import {PacienteService} from '../services/paciente/paciente.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-main',
@@ -37,7 +41,9 @@ export class MainComponent implements OnInit {
               private diagnosticoService: DiagnosticoService,
               private actividadService: ActividadService,
               private flashMessageService: FlashMessagesService,
-              private messageService: MessageService) {
+              private messageService: MessageService,
+              private pacienteService: PacienteService,
+              private router: Router) {
     this.createForm();
   }
 
@@ -159,34 +165,51 @@ export class MainComponent implements OnInit {
   showAlarm() {
     const itemActividades: AbstractControl[] = (<FormArray> this.pacienteForm.controls['itemActividades']).controls;
 
+    const namePacient = this.pacienteForm.get('names').value;
+    const room = this.pacienteForm.get('room').value;
+    const bed = this.pacienteForm.get('bed').value;
+    const clinicNumber = this.pacienteForm.get('clinic_number').value;
+
+    const activities: Actividad[] = [];
+
     for (const item of itemActividades) {
-      const actividad = item.get('activity').value.name;
+      const actividad = item.get('activity').value;
       const time = item.get('time').value;
       const type = item.get('type').value;
-      const namePacient = this.pacienteForm.get('names').value;
-      const room = this.pacienteForm.get('room').value;
-      const bed = this.pacienteForm.get('bed').value;
 
-      const summary = actividad;
+      const summary = actividad.name;
       const detail = `${namePacient}\t ${room}/${bed}`;
-      setInterval(() => {
+      const idInterval = setInterval(() => {
           this.messageService.add({severity:'info', summary:summary, detail:detail});
-          const myAudio = new Audio('assets/chime.mp3');
+          const myAudio = new Audio('assets/bip.mpeg');
           myAudio.play();
       }, this.calculateTime(time, type));
+
+      const periodo: Periodo = {id: idInterval, time: time, type: type};
+      actividad.periodo = periodo;
+      activities.push(actividad);
     }
-    /*this.flashMessageService.show('Mostrando Alrma',
-      {
-        cssClass: 'ui-messages-success',
-        timeout: 3000,
-        closeOnClick: true,
-        showCloseBtn: true});*/
+
+    const paciente: Paciente = {
+      names: namePacient,
+      clinicNumber: clinicNumber,
+      room: room,
+      bed: bed,
+      actividades: activities,
+      estado: 'PRE-ALTA'
+    };
+
+    this.pacienteService.add(paciente);
+
+    this.pacienteService.list().subscribe(list => console.log(list));
 
     this.messageService.add(
       {severity:'success', summary:'Paciente Registrado!',
       detail:'Los datos fueron guardados exitosamente'});
 
     this.clearAll();
+
+    this.router.navigate( ['']);
   }
 
   calculateTime(time, type) {
@@ -203,7 +226,18 @@ export class MainComponent implements OnInit {
   }
 
   clearAll(){
-    this.createForm();
+    this.pacienteForm.get('names').setValue(null);
+    this.pacienteForm.get('cedula').setValue(null);
+    this.pacienteForm.get('edad').setValue(null);
+    this.pacienteForm.get('gender').setValue('Femenino');
+    this.pacienteForm.get('clinic_number').setValue(null);
+    this.pacienteForm.get('room').setValue(null);
+    this.pacienteForm.get('bed').setValue(null);
+    this.pacienteForm.get('dominio').setValue(null);
+    this.pacienteForm.get('diagnostico').setValue(null);
+    this.pacienteForm.get('actividades').setValue(null);
+    this.pacienteForm.get('itemActividades').setValue(null);
+    (<FormArray> this.pacienteForm.controls['itemActividades']).controls = [];
     this.changeTab(true, false, false);
   }
 }

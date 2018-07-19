@@ -3,7 +3,8 @@ import {NgModule} from '@angular/core';
 import {environment} from '../environments/environment';
 
 const routes: Routes = [
-  {path: '', loadChildren: './main/main.module#MainModule'},
+  {path: '', loadChildren: './paciente/paciente.module#PacienteModule'},
+  {path: 'main', loadChildren: './main/main.module#MainModule'},
   {path: '**', redirectTo: ''}
 ];
 
